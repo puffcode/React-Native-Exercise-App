@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Button, Alert } from "react-native";
 
 export default function DurationExercise({ route, navigation }) {
   const { activityName, suggested } = route.params;
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  let intervalId = null;
+  const intervalId = useRef(null); // Use useRef to persist intervalId across renders
 
   // Start the timer
   const startTimer = () => {
     if (!isRunning) {
       setIsRunning(true);
-      intervalId = setInterval(() => {
+      intervalId.current = setInterval(() => {
         setTimer((prev) => prev + 1);
       }, 1000);
     }
@@ -21,7 +21,8 @@ export default function DurationExercise({ route, navigation }) {
   const stopTimer = () => {
     if (isRunning) {
       setIsRunning(false);
-      clearInterval(intervalId);
+      clearInterval(intervalId.current); // Clear the interval using the ref
+      intervalId.current = null; // Reset the intervalId
     }
   };
 
@@ -60,7 +61,7 @@ export default function DurationExercise({ route, navigation }) {
   // Cleanup the interval when the component unmounts
   useEffect(() => {
     return () => {
-      clearInterval(intervalId);
+      clearInterval(intervalId.current); // Clear the interval on unmount
     };
   }, []);
 
