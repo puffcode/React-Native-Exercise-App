@@ -7,9 +7,26 @@ const exercises = [
     id: "1",
     name: "Push-Ups",
     type: "Repetition",
-    suggested: "DurationExercise",
+    suggested: "Plank",
   },
-  { id: "2", name: "Plank", type: "Duration", suggested: "RepetitionExercise" },
+  {
+    id: "2",
+    name: "Plank",
+    type: "Duration",
+    suggested: "Running",
+  },
+  {
+    id: "3",
+    name: "Running",
+    type: "Duration",
+    suggested: "Swimming",
+  },
+  {
+    id: "4",
+    name: "Swimming",
+    type: "Duration",
+    suggested: "Push-Ups",
+  },
 ];
 
 export default function Home({ navigation }) {
@@ -19,8 +36,8 @@ export default function Home({ navigation }) {
       onPress={() =>
         navigation.navigate(
           item.type === "Repetition"
-            ? "RepetitionExercise"
-            : "DurationExercise",
+            ? "RepetitionExercise" // Navigate to RepetitionExercise for Repetition type
+            : "DurationExercise", // Navigate to DurationExercise for Duration type
           { activityName: item.name, suggested: item.suggested }
         )
       }
